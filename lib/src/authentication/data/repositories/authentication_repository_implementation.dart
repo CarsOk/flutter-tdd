@@ -40,7 +40,7 @@ class AuthenticationRepositoryImplementation
   ResultFuture<List<User>> getUsers() async {
     try {
       final result = await _remoteDataSource.getUsers();
-      return Right([]);
+      return Right(result);
     } on APIException catch (e) {
       return Left(APIFailure.fromException(e));
     }

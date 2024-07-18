@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/entities/user.dart';
 import '../../domain/usecases/create_user.dart';
@@ -41,8 +42,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> getUsers() async {
+    emit(const GettingUsers());
     final result = await _getUsers();
-
+    debugPrint('result $result');
     result.fold(
       (failure) => emit(AuthenticationError(failure.message)),
       (users) => emit(UserLoaded(users)),

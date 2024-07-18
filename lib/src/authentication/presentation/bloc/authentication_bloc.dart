@@ -1,5 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/entities/user.dart';
@@ -49,11 +50,20 @@ class AuthenticationBloc
     GetUsersEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
+    debugPrint('ejecutare result');
     final result = await _getUsers();
 
+    debugPrint('result es $result');
+
     result.fold(
-      (failure) => emit(AuthenticationError(failure.message)),
-      (users) => emit(UserLoaded(users)),
+      (failure) {
+        debugPrint(' hubo problemas, result es $result');
+        emit(AuthenticationError(failure.message));
+      },
+      (users) {
+        debugPrint('No hubo problemas, result es $result');
+        emit(UserLoaded(users));
+      },
     );
   }
 }
